@@ -23,9 +23,9 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = true,
   keys = {
-    vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>'),
-    vim.keymap.set('n', '<leader>fa', ':Telescope<CR>'),
-    vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>'),
-    vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>'),
+    vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<CR>'),
+    vim.keymap.set('n', '<leader>fa', '<cmd>Telescope<CR>'),
+    vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>'),
+    vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>'),
   }
 }
