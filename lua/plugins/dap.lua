@@ -21,7 +21,7 @@ return {
           return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
         end,
         args = function()
-          return { vim.fn.input('Args: ') }
+          return { vim.fn.input('Args: ', "" ,'file') }
         end,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
