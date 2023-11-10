@@ -15,18 +15,23 @@ local config = function()
   end
 
   local capabilities = cmp_nvim_lsp.default_capabilities()
-
+  lspconfig.pyright.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+  })
   lspconfig.clangd.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { "clangd", "--offset-encoding=utf-16" },
     filetypes = { "c", "cpp", "h" },
   })
+  local flake8 = require("efmls-configs.linters.flake8")
   local clang_tidy = require("efmls-configs.linters.clang_tidy")
   local clang_format = require("efmls-configs.formatters.clang_format") 
+  local autopep8 = require("efmls-configs.formatters.black") 
   lspconfig.efm.setup({
     filetypes = {
-      "c", "cpp", "h",
+      "c", "cpp", "h", "py"
     },
     init_options = {
       documentFormatting = true,
@@ -39,6 +44,7 @@ local config = function()
     settings = {
       languages = {
         c = { clang_tidy, clang_format },
+        python = { flake8, autopep8 },
       },
     },
   })
