@@ -25,10 +25,13 @@ local config = function()
     cmd = { "clangd", "--offset-encoding=utf-16" },
     filetypes = { "c", "cpp", "h" },
   })
+  local rust_tools = require("rust-tools")
   local flake8 = require("efmls-configs.linters.flake8")
   local clang_tidy = require("efmls-configs.linters.clang_tidy")
   local clang_format = require("efmls-configs.formatters.clang_format") 
-  local autopep8 = require("efmls-configs.formatters.black") 
+  local autopep8 = require("efmls-configs.formatters.black")
+  local rustfmt = require('efmls-configs.formatters.rustfmt')
+  rust_tools.setup({})
   lspconfig.efm.setup({
     filetypes = {
       "c", "cpp", "h", "py"
@@ -44,6 +47,7 @@ local config = function()
     settings = {
       languages = {
         c = { clang_tidy, clang_format },
+        rust = {rust_fmt},
         python = { flake8, autopep8 },
       },
     },
@@ -66,6 +70,7 @@ return {
   config = config,
   lazy = false,
   dependencies = {
+    "simrat39/rust-tools.nvim",
     "windwp/nvim-autopairs",
     "williamboma/mason.nvim",
     "hrsh7th/nvim-cmp",
