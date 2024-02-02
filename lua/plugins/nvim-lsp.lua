@@ -27,14 +27,24 @@ local config = function()
   })
   local rust_tools = require("rust-tools")
   local flake8 = require("efmls-configs.linters.flake8")
+  local autopep8 = require("efmls-configs.formatters.autopep8")
   local clang_tidy = require("efmls-configs.linters.clang_tidy")
   local clang_format = require("efmls-configs.formatters.clang_format") 
   local autopep8 = require("efmls-configs.formatters.black")
   local rustfmt = require('efmls-configs.formatters.rustfmt')
-  rust_tools.setup({})
+  rust_tools.setup({
+    server = {
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<leader>a", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<leader>A", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+  })
   lspconfig.efm.setup({
     filetypes = {
-      "c", "cpp", "h", "py"
+      "c", "cpp", "h", "py", "rs"
     },
     init_options = {
       documentFormatting = true,
@@ -47,7 +57,7 @@ local config = function()
     settings = {
       languages = {
         c = { clang_tidy, clang_format },
-        rust = {rust_fmt},
+        rust = { rustfmt },
         python = { flake8, autopep8 },
       },
     },
@@ -55,14 +65,17 @@ local config = function()
   local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
   vim.api.nvim_create_autocmd("BufWritePost", {
     group = lsp_fmt_group,
-    callback = function()
-      local efm = vim.lsp.get_active_clients({ name = "efm" })
-      if vim.tbl_isempty(efm) then
-        return
+    callback = function(ev)
+      local fmt = vim.lsp.get_active_clients({name='efm'})
+      local rf = vim.lsp.get_active_clients({name='rust_analyzer'})
+      if not vim.tbl_isempty(fmt) then
+        vim.lsp.buf.format({name='efm'})
       end
-      vim.lsp.buf.format({ name = "efm" })
-    end,
-  })
+      if not vim.tbl_isempty(rf) then
+        vim.lsp.buf.format()
+      end
+    end
+    })
 end
 
 return {
