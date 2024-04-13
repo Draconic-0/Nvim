@@ -1,0 +1,6 @@
+vim.keymap.set('n', '<leader>sv', vim.cmd.vsplit, {noremap = true, silent = true, desc = "split window vertically"})
+vim.keymap.set('n', '<leader>sm', vim.cmd.MaximizerToggle, {noremap = true, silent = true, desc = "maximize split pane"})
+vim.keymap.set('n', '<Right>', "<NOP>")
+vim.keymap.set('n', '<Left>', "<NOP>")
+vim.keymap.set('n', '<Up>', "<NOP>")
+vim.keymap.set('n', '<Down>', "<NOP>")
