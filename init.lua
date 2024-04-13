@@ -10,14 +10,14 @@ if not vim.loop.fs_stat(lazypath) then
 })
 end
 vim.opt.rtp:prepend(lazypath)
-require('lua.settings.globals')
-require('lua.settings.options')
+require('settings.globals')
+require('settings.options')
 local opts = {
 	defaults = {
 		lazy = true,
 	},
 	install = {
-                colorscheme = { "catppuccin" }
+                colorscheme = { "catppuccin-mocha" }
         },
         rtp = {
         disabled_plugins = {
@@ -34,7 +34,7 @@ local opts = {
         change_detection = {
                 notify = true,
         },
-}
-			
+}	
 require('lazy').setup('plugins', opts)
-require('lua.settings.keymaps')
+vim.cmd("colorscheme catppuccin-mocha")
+require('settings.keymaps')
